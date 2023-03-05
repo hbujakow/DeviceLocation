@@ -14,8 +14,8 @@ externalDocs:
   url: https://github.com/camaraproject/
 security:
   - oAuth2ClientCredentials: []
-#  - BasicAuth: []
-#  - apiKey: []
+  - BasicAuth: []
+  - apiKey: []
   - three_legged:
     - device-location-read
 servers:
@@ -67,14 +67,14 @@ components:
         clientCredentials:
           tokenUrl: '{tokenUrl}'
           scopes: {}
-#    BasicAuth:
-#      type: http
-#      scheme: basic
-#    apiKey:
-#      type: apiKey
-#      description: API key to authorize requests
-#      name: apikey
-#      in: query
+    BasicAuth:
+      type: http
+      scheme: basic
+    apiKey:
+      type: apiKey
+      description: API key to authorize requests
+      name: apikey
+      in: query
     three_legged:
       type: oauth2
       flows:
@@ -97,6 +97,8 @@ components:
           $ref: '#/components/schemas/Longitude'
         accuracy:
           $ref: '#/components/schemas/Accuracy'
+        maxage:
+          $ref: '#/components/schemas/MaxAge'
       required:
         - ueId
         - latitude
@@ -107,6 +109,11 @@ components:
       required:
         - verificationResult
       properties:
+        timestamp: 
+          description: "asdfasdf"
+          example: 1995-09-07T10:40:52Z
+          format: date-time
+          type: string
         verificationResult:
           $ref: '#/components/schemas/VerificationResult'
     UeId:
@@ -143,10 +150,8 @@ components:
     Ipv6Addr:
       type: string
       format: ipv6
-      allOf:
-        - pattern: '^((:|(0?|([1-9a-f][0-9a-f]{0,3}))):)((0?|([1-9a-f][0-9a-f]{0,3})):){0,6}(:|(0?|([1-9a-f][0-9a-f]{0,3})))(\/(([0-9])|([0-9]{2})|(1[0-1][0-9])|(12[0-8])))?$'
-        - pattern: '^((([^:]+:){7}([^:]+))|((([^:]+:)*[^:]+)?::(([^:]+:)*[^:]+)?))(\/.+)?$'
-      example: '2001:db8:85a3:8d3:1319:8a2e:370:7344'
+      pattern: '(^((:|(0?|([1-9a-f][0-9a-f]{0,3}))):)((0?|([1-9a-f][0-9a-f]{0,3})):){0,6}(:|(0?|([1-9a-f][0-9a-f]{0,3})))(\/(([0-9])|([0-9]{2})|(1[0-1][0-9])|(12[0-8])))?$)|(^((([^:]+:){7}([^:]+))|((([^:]+:)*[^:]+)?::(([^:]+:)*[^:]+)?))(\/.+)?$)'
+      example: "2001:db8:85a3:8d3:1319:8a2e:370:7344"
       description: |
         IPv6 address, following IETF 5952 format, may be specified in form <address/mask> as:
           - address - The /128 subnet is optional for single addresses:
@@ -181,9 +186,19 @@ components:
       minimum: 2
       maximum: 200
       example: 50
+    MaxAge:
+      description: The accepted time limit for providing the location status should not exceed this value
+      type: number
+      format: integer
+      minimum: 0
+      example: 3600
     VerificationResult:
-      description: Result of a verification request, true on match
-      type: boolean
+      description: Result of a verification request, TRUE on match, FALSE on no match, and UNKNOWN on location not known
+      type: string
+      enum:
+        - TRUE
+        - FALSE
+        - UNKNOWN
     ErrorInfo:
       type: object
       required:
