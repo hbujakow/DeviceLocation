@@ -110,7 +110,7 @@ components:
         - verificationResult
       properties:
         timestamp: 
-          description: "asdfasdf"
+          description: timestamp of the age
           example: 1995-09-07T10:40:52Z
           format: date-time
           type: string
