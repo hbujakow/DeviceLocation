@@ -193,9 +193,9 @@ components:
       description: Result of a verification request, TRUE on match, FALSE on no match, and UNKNOWN on location not known
       type: string
       enum:
-        - TRUE
-        - FALSE
-        - UNKNOWN
+        - "TRUE"
+        - "FALSE"
+        - "UNKNOWN"
     AgeTimestamp:
       description: timestamp of the age
       example: 1995-09-07T10:40:52Z
