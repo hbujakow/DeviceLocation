@@ -110,10 +110,7 @@ components:
         - verificationResult
       properties:
         timestamp: 
-          description: timestamp of the age
-          example: 1995-09-07T10:40:52Z
-          format: date-time
-          type: string
+          $ref: '#/components/schemas/AgeTimestamp'
         verificationResult:
           $ref: '#/components/schemas/VerificationResult'
     UeId:
@@ -199,6 +196,11 @@ components:
         - TRUE
         - FALSE
         - UNKNOWN
+    AgeTimestamp:
+      description: timestamp of the age
+      example: 1995-09-07T10:40:52Z
+      format: date-time
+      type: string
     ErrorInfo:
       type: object
       required:
